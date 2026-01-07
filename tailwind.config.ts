@@ -57,6 +57,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        game: {
+          pink: "hsl(var(--game-pink))",
+          purple: "hsl(var(--game-purple))",
+          mint: "hsl(var(--game-mint))",
+          yellow: "hsl(var(--game-yellow))",
+          peach: "hsl(var(--game-peach))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -65,25 +72,44 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "bounce-soft": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-5px)" },
+        },
+        "wiggle": {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
+        },
+        "pop": {
+          "0%": { transform: "scale(0.95)", opacity: "0" },
+          "50%": { transform: "scale(1.02)" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        "confetti": {
+          "0%": { transform: "translateY(0) rotate(0deg)", opacity: "1" },
+          "100%": { transform: "translateY(100vh) rotate(720deg)", opacity: "0" },
+        },
+        "tile-slide": {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(0.95)" },
+          "100%": { transform: "scale(1)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "bounce-soft": "bounce-soft 2s ease-in-out infinite",
+        "wiggle": "wiggle 0.5s ease-in-out",
+        "pop": "pop 0.3s ease-out forwards",
+        "confetti": "confetti 3s ease-out forwards",
+        "tile-slide": "tile-slide 0.15s ease-out",
       },
     },
   },
