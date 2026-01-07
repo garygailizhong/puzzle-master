@@ -18,8 +18,16 @@ const PuzzleBoard: React.FC<PuzzleBoardProps> = ({
   canMove,
   isComplete,
 }) => {
-  const tileSize = 100 / size;
   const totalTiles = size * size;
+
+  // 计算 background-position 百分比
+  // 对于 n×n 拼图，第 i 列/行的 position = i / (n-1) * 100%
+  const getBackgroundPosition = (col: number, row: number) => {
+    if (size === 1) return '0% 0%';
+    const xPos = (col / (size - 1)) * 100;
+    const yPos = (row / (size - 1)) * 100;
+    return `${xPos}% ${yPos}%`;
+  };
 
   return (
     <div 
@@ -51,7 +59,7 @@ const PuzzleBoard: React.FC<PuzzleBoardProps> = ({
             style={{
               backgroundImage: `url(${imageUrl})`,
               backgroundSize: `${size * 100}% ${size * 100}%`,
-              backgroundPosition: `${originalCol * tileSize}% ${originalRow * tileSize}%`,
+              backgroundPosition: getBackgroundPosition(originalCol, originalRow),
               aspectRatio: '1',
             }}
           >

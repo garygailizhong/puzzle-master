@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ import { defaultImages } from '@/data/defaultImages';
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [showVictoryModal, setShowVictoryModal] = useState(false);
   
   const size = (parseInt(searchParams.get('size') || '3') as 3 | 4) || 3;
   const imageId = searchParams.get('image') || 'sunset';
@@ -38,11 +39,28 @@ const GamePage: React.FC = () => {
     navigate('/');
   };
 
+  const handleRestart = () => {
+    setShowVictoryModal(false);
+    restart();
+  };
+
   // 预加载图片
   useEffect(() => {
     const img = new Image();
     img.src = imageUrl;
   }, [imageUrl]);
+
+  // 完成后延迟 1.5 秒显示弹窗，让玩家欣赏完整图片
+  useEffect(() => {
+    if (isComplete) {
+      const timer = setTimeout(() => {
+        setShowVictoryModal(true);
+      }, 1500);
+      return () => clearTimeout(timer);
+    } else {
+      setShowVictoryModal(false);
+    }
+  }, [isComplete]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -83,7 +101,7 @@ const GamePage: React.FC = () => {
       <footer className="p-4 flex justify-center gap-4">
         <Button
           variant="outline"
-          onClick={restart}
+          onClick={handleRestart}
           className="rounded-xl px-6 h-12 font-bold"
         >
           <RotateCcw className="w-5 h-5 mr-2" />
@@ -98,13 +116,13 @@ const GamePage: React.FC = () => {
         </Button>
       </footer>
 
-      {/* 胜利弹窗 */}
+      {/* 胜利弹窗 - 延迟显示 */}
       <VictoryModal
-        isOpen={isComplete}
+        isOpen={showVictoryModal}
         time={time}
         moves={moves}
         bestScore={bestScore}
-        onRestart={restart}
+        onRestart={handleRestart}
         onHome={handleHome}
       />
     </div>
